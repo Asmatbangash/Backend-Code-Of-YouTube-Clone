@@ -2,6 +2,7 @@ import User from "../models/User.model.js";
 import { ApiError } from "../utils/ApiError.utils.js";
 import { ApiResponse } from "../utils/ApiResponse.utils.js";
 import { asyncHandler } from "../utils/asyncHandler.utils.js";
+import {uploadOnCloudinary} from "../utils/Cloudinary.utils.js"
 
 const userRegister = asyncHandler(async (req, res) => {
   const { userName, email, password, fullName} = req.body;
@@ -12,7 +13,7 @@ const userRegister = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required!");
   }
 
-  const existedUser = User.findOne({
+  const existedUser = await User.findOne({
     $or: [{ userName }, { email }],
   });
 
@@ -49,5 +50,7 @@ const userRegister = asyncHandler(async (req, res) => {
   }
   return res.status(201).json(new ApiResponse(200, createdUser, "user register successfully"))
 });
+
+
 
 export { userRegister };
