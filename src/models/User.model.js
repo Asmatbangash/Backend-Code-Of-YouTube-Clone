@@ -42,6 +42,7 @@ const userSchema = new mongoose.Schema(
         ],
         avatar: {
             type: String,
+            required: true
         },
         coverImg: {
             type: String
@@ -60,7 +61,7 @@ userSchema.pre("save",async function(next){
    next()
 })
 
-userSchema.methods.comparedPassword = async function(password){
+userSchema.methods.isPasswordCorrect = async function(password){
   return await  bcrypt.compare(password, this.password)
 }
 
