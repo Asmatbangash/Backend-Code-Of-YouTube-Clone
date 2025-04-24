@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { userRegister } from "../controllers/User.contoroller.js";
+import { userLogin, userRegister } from "../controllers/User.contoroller.js";
 import { upload } from "../middleware/Cloudinary.middleware.js";
 
 const router = Router()
@@ -14,5 +14,6 @@ router.route('/register').post(upload.fields([
     }
 ]),userRegister)
 
+router.route('/logIn').post(userLogin)
 
 export {router}
