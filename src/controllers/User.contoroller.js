@@ -60,7 +60,7 @@ try {
 
 const generateAccessAndRefreshToken = async(userId) =>{
 try {
-  const user = User.findById(userId)
+  const user = await User.findById(userId)
   const accessToken = user.generateAccessToken()
   const refreshToken = user.generateRefreshToken()
 
@@ -69,7 +69,7 @@ try {
 
   return {accessToken, refreshToken}
 } catch (error) {
-  throw new ApiError(500, 'something went wrong while generating refresh and access tokens')
+  throw new ApiError(500, {},'something went wrong while generating refresh and access tokens')
 }
 }
 
@@ -82,9 +82,10 @@ const userLogin = asyncHandler(async(req,res) =>{
   // send cokies
 
   const {userName, email, password} = req.body
+  console.log(userName, email, password)
 
   if(!(userName || email)){
-    throw new ApiError(401, 'username or email is required!')
+    throw new ApiError(401,{},'username or email is required!')
   }
 
   const user = await User.findOne({
